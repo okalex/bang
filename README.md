@@ -4,7 +4,7 @@ Bang! is a command-line tool to start development app servers in a number of lan
 a server, simply navigate to the app directory and type `bang`. This will start the server on
 localhost, port 8080 by default.
 
-**NOTE** This is still very new. I've only spent a couple hours on it so far, but I will improve upon
+**NOTE:** This is still very new. I've only spent a couple hours on it so far, but I will improve upon
 it in the future. Feel free to submit a pull request if you'd like to contribute. Some long-term goals:
 
 * Install runtime environments and servers by running `bang install`
