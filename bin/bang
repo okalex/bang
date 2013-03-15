@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require 'trollop'
+
+opts = Trollop::options do
+  opt :port, 'Port number', :short => '-p', :default => 8080
+  opt :dir, 'App directory', :short => '-d', :default => Dir.pwd
+end
+
+def detect_app_type(dir)
+  files = Dir.entries(dir)
+
+  return 'php', 'index.php' if files.include?('index.php')
+  return 'rack', 'config.ru' if files.include?('config.ru')
+  return 'node', 'app.js' if files.include?('app.js')
+  return 'node', 'server.js' if files.include?('server.js')
+  return 'html', nil
+end
+
+type, start_file = detect_app_type(opts[:dir])
+puts "Starting #{type} app in #{opts[:dir]} on port #{opts[:port]}"
+
+case type
+when 'php'
+  `php -S localhost:#{opts[:port]} -t #{opts[:dir]}`
+when 'rack'
+  `bundle exec rackup #{opts[:dir]}/config.ru -p #{opts[:port]}`
+when 'node'
+  `node #{opts[:dir]}/#{start_file}`
+when 'html'
+  config_path = File.expand_path('../config', File.dirname(__FILE__))
+  `RACK_ROOT="#{opts[:dir]}" thin -R #{config_path}/static.ru start -p #{opts[:port]}`
+end
