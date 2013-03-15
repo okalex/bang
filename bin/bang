@@ -14,11 +14,11 @@ def detect_app_type(dir)
   return 'rack', 'config.ru' if files.include?('config.ru')
   return 'node', 'app.js' if files.include?('app.js')
   return 'node', 'server.js' if files.include?('server.js')
-  return 'html', nil
+  return 'static', nil
 end
 
 type, start_file = detect_app_type(opts[:dir])
-puts "Starting #{type} app in #{opts[:dir]} on port #{opts[:port]}"
+puts "Starting #{type} server in #{opts[:dir]} on port #{opts[:port]}"
 
 case type
 when 'php'
@@ -27,7 +27,7 @@ when 'rack'
   `bundle exec rackup #{opts[:dir]}/config.ru -p #{opts[:port]}`
 when 'node'
   `node #{opts[:dir]}/#{start_file}`
-when 'html'
+when 'static'
   config_path = File.expand_path('../config', File.dirname(__FILE__))
   `RACK_ROOT="#{opts[:dir]}" thin -R #{config_path}/static.ru start -p #{opts[:port]}`
 end
