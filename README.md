@@ -20,7 +20,7 @@ it in the future. Feel free to submit a pull request if you'd like to contribute
 ## Supported languages
 
 * PHP - Bang! looks for an index.php file
-* Rack - Bang! looks for a config.ru file
+* Ruby/Rack - Bang! looks for a config.ru file
 * Node - Bang! looks for app.js or server.js files
 * Static - All other types will currently be served as static files. This allows you to serve static
   sites through a development server easily
